@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h2>Contacts</h2>
+      <ul>
+        <% users.forEach(user => { %>
+          <li class="<%= user === activeUser ? 'active' : '' %>">
+            <a href="/chat/<%= user %>"><%= user %></a>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+
+    <!-- Chat area -->
+    <div class="chat">
+      <div class="chat-header">
+        <h2><%= activeUser %></h2>
+      </div>
+
+      <div class="chat-messages">
+        <% messages.forEach(msg => { %>
+          <div class="message <%= msg.user === activeUser ? 'incoming' : 'outgoing' %>">
+            <p><%= msg.text %></p>
+            <small><%= msg.added.toLocaleTimeString() %></small>
+          </div>
+        <% }) %>
+      </div>
+
+      <div class="chat-input">
+        <form method="POST" action="/new">
+          <input type="hidden" name="author" value="<%= activeUser %>">
+          <input type="text" name="messageText" placeholder="Type a message..." required>
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
